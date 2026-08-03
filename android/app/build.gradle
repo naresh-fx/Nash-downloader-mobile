@@ -7,11 +7,12 @@ plugins {
 android {
     namespace "com.nash.downloader"
     compileSdk 34
-    ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
@@ -50,4 +51,5 @@ dependencies {
         exclude group: 'io.github.junkfood02.youtubedl-android', module: 'common'
     }
     implementation "androidx.multidex:multidex:2.0.1"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.4"
 }
