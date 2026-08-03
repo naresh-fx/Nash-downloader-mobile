@@ -43,7 +43,7 @@ class YtDlpChannel(private val context: Context) : MethodChannel.MethodCallHandl
         val url = call.argument<String>("url") ?: return result.error("bad_args", "url required", null)
         executor.execute {
             try {
-                val info = YoutubeDL.getInstance().getInfo(url)
+                val info: com.yausername.youtubedl_android.VideoInfo = YoutubeDL.getInstance().getInfo(url as String)
                 val map = mapOf(
                     "title" to (info.title ?: "Unknown title"),
                     "uploader" to (info.uploader ?: info.channel ?: "Unknown channel"),
