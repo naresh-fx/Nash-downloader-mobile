@@ -9,10 +9,6 @@ pubspec.lock
 # Android
 android/local.properties
 android/.gradle/
-android/gradlew
-android/gradlew.bat
-android/gradle/
-android/**/gradle-wrapper.jar
 *.iml
 .idea/
 
