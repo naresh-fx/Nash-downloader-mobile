@@ -60,27 +60,26 @@ class YtDlpChannel(private val context: Context) : MethodChannel.MethodCallHandl
 
         executor.execute {
             try {
-                val outPath = File(outputDir(), "download.mp4").absolutePath
-                val cmdArgs = mutableListOf<String>()
-                cmdArgs.add(url)
-                cmdArgs.add("-o")
-                cmdArgs.add(outPath)
+                val urls: List<String> = listOf(url)
+                val request = com.yausername.youtubedl_android.YoutubeDLRequest(urls)
+                request.addOption("-o")
+                request.addOption(File(outputDir(), "%(uploader)s - %(title)s.%(ext)s").absolutePath)
                 
                 if (audioOnly) {
-                    cmdArgs.add("-f")
-                    cmdArgs.add("bestaudio/best")
-                    cmdArgs.add("-x")
-                    cmdArgs.add("--audio-format")
-                    cmdArgs.add("mp3")
+                    request.addOption("-f")
+                    request.addOption("bestaudio/best")
+                    request.addOption("-x")
+                    request.addOption("--audio-format")
+                    request.addOption("mp3")
                 } else {
-                    cmdArgs.add("-f")
-                    cmdArgs.add(format)
+                    request.addOption("-f")
+                    request.addOption(format)
                 }
 
                 activeProcessIds[id] = id
                 emit(id, 0.0, "downloading", "Starting…")
 
-                YoutubeDL.getInstance().execute(cmdArgs.toTypedArray(), id) { progress, _, line ->
+                YoutubeDL.getInstance().execute(request, id) { progress, _, line ->
                     val status = if (progress >= 100f) "processing" else "downloading"
                     emit(id, progress.toDouble(), status, line ?: "Downloading…")
                 }
